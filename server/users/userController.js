@@ -1,4 +1,8 @@
 var User = require('./userModel.js');
+Q = require('q');
+
+var findUser = Q.nbind(User.findOne, User);
+
 
 module.exports = {
 

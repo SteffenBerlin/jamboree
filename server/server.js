@@ -16,6 +16,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect('mongodb://localhost/jamboree');
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public/'));
+app.use(passport.initialize());
+
 
 // skeleton for eventual API calls
 // app.post('/api/acct/signin', acctController.signin);
@@ -37,7 +39,7 @@ app.use(express.static(__dirname + '/../public/'));
 // behalf, along with the user's profile.  The function must invoke `cb`
 // with a user object, which will be set at `req.user` in route handlers after
 // authentication.
-
+var userController = require('./users/userController');
 
 passport.use(new Strategy({
     clientID: auth.clientID,
@@ -81,14 +83,11 @@ app.get('/login/facebook',
 app.get('/login/facebook/return', 
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
-    //check users events and decide any passed deadline
-    EventController.decideUsersEvents(req.user.id);
-
     //send cookie so client side has user info
     res.cookie('name',req.user.displayName);
     res.cookie('fbId',req.user.id);
     res.cookie('picture',req.user.photos[0].value);
-    res.redirect('/#events');
+    res.redirect('/#mainApp');
 
   });
 
