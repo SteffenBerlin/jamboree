@@ -15,7 +15,7 @@ class Login extends Component {
     // Here, we call an external AuthService. We’ll create it in the next step
     Auth.login(this.state.user, this.state.password)
       .catch(function(err) {
-        console.log(“Error logging in”, err);
+        console.log('Error logging in', err);
       });
   }
 
