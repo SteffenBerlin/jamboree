@@ -6,6 +6,7 @@ import EventList from './components/EventList';
 import Banner from './components/Banner';
 import getYouTube from './utils/youtube.js';
 import keys from './config/apikeys.js';
+import Login from './components/Login';
 import $ from 'jquery';
 import getloc from './utils/getloc';
 import getdate from './utils/getdate';
@@ -123,6 +124,7 @@ export class App extends Component {
     return (
       <container>
         <Banner />
+        <Login />
         <div className="app">
           <a name="mainApp"/>
           <div className="col-xs-12">
