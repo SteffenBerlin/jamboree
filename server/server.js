@@ -5,7 +5,7 @@ var eventController = require('./events/eventController.js');
 var morgan = require('morgan');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
-var auth = require('./keys/auth.js');
+var keys = require('./keys/apiKeys.js');
 
 const PORT = 8080;
 
@@ -42,9 +42,9 @@ app.use(passport.initialize());
 var userController = require('./users/userController');
 
 passport.use(new Strategy({
-    clientID: auth.clientID,
-    clientSecret: auth.clientSecret,
-    callbackURL: auth.callbackURL,
+    clientID: keys.facebook.clientID,
+    clientSecret: keys.facebook.clientSecret,
+    callbackURL: keys.facebook.callbackURL,
     profileFields: ['id', 'displayName', 'picture.height(150).width(150)','friends']
   },
   function(accessToken, refreshToken, profile, cb) {
