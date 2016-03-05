@@ -14,37 +14,37 @@ module.exports = {
       return {fbId: friend.id}; 
     });
 
-      findUser({fbId: fbId})
-        .then(function (match) {
-          //if there's no match, we want to create a new user 
-          if (match === null) {
-            var newUser = {
-              name: name,
-              fbId: fbId,
-              picture: picture,
-              friends: friends
-            };
-            createUser(newUser)
-            .then(function(user){
-              cb(null, user);
-            })
-            .catch(function(err){
-              cb(err);
-            })
-          } else {// if user already exists, update user's friends and prof pic in the database
-            match.friends = friends;
-            match.picture = picture;
-            match.save(function (err) {
-                if (err){
-                  return handleError(err);
-                } 
-              });
-            cb(null, match);
-          }
-        })
-        .catch(function (error) {
-          cb(error);
-        });
+    findUser({fbId: fbId})
+      .then(function (match) {
+        //if there's no match, we want to create a new user 
+        if (match === null) {
+          var newUser = {
+            name: name,
+            fbId: fbId,
+            picture: picture,
+            friends: friends
+          };
+          createUser(newUser)
+          .then(function(user){
+            cb(null, user);
+          })
+          .catch(function(err){
+            cb(err);
+          })
+        } else {// if user already exists, update user's friends and prof pic in the database
+          match.friends = friends;
+          match.picture = picture;
+          match.save(function (err) {
+              if (err){
+                return handleError(err);
+              } 
+            });
+          cb(null, match);
+        }
+      })
+      .catch(function (error) {
+        cb(error);
+      });
     }
 
 };

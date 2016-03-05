@@ -6,6 +6,7 @@ var morgan = require('morgan');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
 var keys = require('./keys/apiKeys.js');
+var userController = require('./users/userController');
 
 const PORT = 8080;
 
@@ -18,18 +19,6 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public/'));
 app.use(passport.initialize());
 
-
-// skeleton for eventual API calls
-// app.post('/api/acct/signin', acctController.signin);
-// app.post('/api/acct/signup', acctController.signup);
-// app.get('/api/acct/signedin', acctController.checkAuth);
-// app.get('/api/acct/logout', acctController.checkAuth);
-// app.post('/api/acct/addToList', acctController.addToList);
-
-
-
-
-
 // configuration ===========================================
 
 // Passport Facebook strategy configuration=================
@@ -39,7 +28,6 @@ app.use(passport.initialize());
 // behalf, along with the user's profile.  The function must invoke `cb`
 // with a user object, which will be set at `req.user` in route handlers after
 // authentication.
-var userController = require('./users/userController');
 
 passport.use(new Strategy({
     clientID: keys.facebook.clientID,
@@ -66,7 +54,7 @@ passport.use(new Strategy({
 // production-quality application, this would typically be as simple as
 // supplying the user ID when serializing, and querying the user record by ID
 // from the database when deserializing.  However, due to the fact that this
-// example does not have a database, the complete Twitter profile is serialized
+// example does not have a database, the complete Facebook profile is serialized
 // and deserialized.
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -76,11 +64,8 @@ passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
 
-
-
 // passport routes =========================================================
 // route to handle all facebook passport requests
-
 app.get('/api/events/getList', eventController.getEvents);
 
 app.get('/login/facebook',
@@ -90,9 +75,9 @@ app.get('/login/facebook/return',
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
     //send cookie so client side has user info
-    res.cookie('name',req.user.displayName);
-    res.cookie('fbId',req.user.id);
-    res.cookie('picture',req.user.photos[0].value);
+    res.cookie('name',req.user.name);
+    res.cookie('fbId',req.user.fbId);
+    res.cookie('picture',req.user.picture);
     res.redirect('/#mainApp');
 
   });
