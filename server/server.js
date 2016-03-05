@@ -30,9 +30,9 @@ app.use(passport.initialize());
 // authentication.
 
 passport.use(new Strategy({
-    clientID: keys.facebook.clientID,
-    clientSecret: keys.facebook.clientSecret,
-    callbackURL: keys.facebook.callbackURL,
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: process.env.FACEBOOK_URL,
     profileFields: ['id', 'displayName', 'picture.height(150).width(150)','friends']
   },
   function(accessToken, refreshToken, profile, cb) {
