@@ -1,8 +1,7 @@
 var Event = require('./eventModel.js');
 var Q = require('q');
-var key = require('../keys/apikeys.js')
 var eventful = require('eventful-node');
-var eventful = new eventful.Client(key.eventful);
+var eventful = new eventful.Client(process.env.EVENTFUL_API_KEY);
 
 // This function is for optimization to allow auto-refreshing of event listings
 // var updateEvent= Q.nbind(Event.update, Event);

@@ -5,7 +5,6 @@ var eventController = require('./events/eventController.js');
 var morgan = require('morgan');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
-var keys = require('./keys/apiKeys.js');
 var userController = require('./users/userController');
 
 const PORT = 8080;
