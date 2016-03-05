@@ -6,7 +6,7 @@ var createUser = Q.nbind(User.create, User);
 
 module.exports = {
 
-  createOrFindOne: function (profile) {
+  createOrFindOne: function (profile, cb) {
     var fbId = profile.id;
     var name = profile.displayName;
     var picture = profile.photos[0].value;
@@ -24,7 +24,13 @@ module.exports = {
               picture: picture,
               friends: friends
             };
-            createUser(newUser);
+            createUser(newUser)
+            .then(function(user){
+              cb(null, user);
+            })
+            .catch(function(err){
+              cb(err);
+            })
           } else {// if user already exists, update user's friends and prof pic in the database
             match.friends = friends;
             match.picture = picture;
@@ -33,11 +39,11 @@ module.exports = {
                   return handleError(err);
                 } 
               });
+            cb(null, match);
           }
         })
-        .fail(function (error) {
-          console.log('createOrFind user Error',error);
-          next(error);
+        .catch(function (error) {
+          cb(error);
         });
     }
 

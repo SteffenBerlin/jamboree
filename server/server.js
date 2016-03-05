@@ -49,8 +49,14 @@ passport.use(new Strategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     //call a function which checks if user is in db
-    userController.createOrFindOne(profile);
-    return cb(null, profile);
+    userController.createOrFindOne(profile, function(err, user){
+      if(err){
+        cb(err);
+      } else {
+        cb(null, user);
+      }
+    });
+    // return cb(null, profile);
   }));
 
 // Configure Passport authenticated session persistence.
